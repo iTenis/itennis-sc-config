@@ -21,16 +21,7 @@ eureka:
 
 
 zuul:
-  #添加代理头
-  add-proxy-headers: true
   routes:
-    auth:
-      #响应的路径
-      path: /auth/**
-      #敏感头信息
-      sensitiveHeaders:
-      #重定向到的服务（根据服务id名称从注册中心获取服务地址）
-      serviceId:  auth-server
     provider-product: # 路由名称，名称任意，路由名称唯一
       path: /product/** # 访问路径
       serviceId: microservice-product # 指定服务ID，会自动从Eureka中找到此服务的ip和端 口
