@@ -1,0 +1,81 @@
+spring:
+  profiles:
+    active: dev # 激活开发环境配置
+---
+server:
+  port: 8001
+
+spring:
+  application:
+    profile: dev
+    name: microservice-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver             # mysql驱动包
+    url: jdbc:mysql://115.159.0.166:3306/springcloud_db01?serverTimezone=GMT%2B8  # 数据库名称
+    username: root
+    password: 19931103xhs-
+    dbcp2:
+      min-idle: 5                                # 数据库连接池的最小维持连接数
+      initial-size: 5                            # 初始化连接数
+      max-total: 5                               # 最大连接数
+      max-wait-millis: 150                       # 等待连接获取的最大超时时间
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${server.port}-hystrix
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:6001/eureka/,http://localhost:6002/eureka/
+
+# 在被监控服务上添加暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
+---
+server:
+  port: 8001
+
+spring:
+  profile: prod
+  application:
+    name: microservice-product #这个很重要，这在以后的服务与服务之间相互调用一般都是根据这个name
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource            # 当前数据源操作类型
+    driver-class-name: com.mysql.cj.jdbc.Driver             # mysql驱动包
+    url: jdbc:mysql://115.159.0.166:3306/springcloud_db01?serverTimezone=GMT%2B8  # 数据库名称
+    username: root
+    password: 19931103xhs-
+    dbcp2:
+      min-idle: 5                                # 数据库连接池的最小维持连接数
+      initial-size: 5                            # 初始化连接数
+      max-total: 5                               # 最大连接数
+      max-wait-millis: 150                       # 等待连接获取的最大超时时间
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${server.port}-hystrix
+    prefer-ip-address: true
+    status-page-url-path: /actuator/info
+    health-check-url-path: /actuator/health
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:6001/eureka/,http://localhost:6002/eureka/
+
+# 在被监控服务上添加暴露端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include: hystrix.stream
