@@ -40,6 +40,16 @@ management:
     web:
       exposure:
         include: hystrix.stream
+
+#安全配置
+security:
+  oauth2:
+    resource:
+      id: microservice-product
+      #指定用户信息地址
+      user-info-uri: https://127.0.0.1:7001/auth/user
+      prefer-token-info: false
+
 ---
 server:
   port: 8001
